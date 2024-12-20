@@ -1,0 +1,24 @@
+const WebSocket = require('ws');
+
+const HOST = '192.168.190.130'; // Địa chỉ IP của máy Flask
+const PORT = 65432;
+
+const wss = new WebSocket.Server({ host: HOST, port: PORT });
+
+wss.on('connection', function connection(ws) {
+    console.log('Kết nối từ Flask');
+
+    ws.on('message', function incoming(data) {
+        console.log('Dữ liệu nhận được từ Flask:', data);
+    });
+
+    ws.on('error', (err) => {
+        console.error('Lỗi WebSocket:', err);
+    });
+
+    ws.on('close', () => {
+        console.log('Kết nối đóng');
+    });
+});
+
+console.log(`WebSocket server đang chạy trên ${HOST}:${PORT}`);
